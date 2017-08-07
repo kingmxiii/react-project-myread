@@ -13,7 +13,7 @@ function BooksGrid(props) {
           <li key={book.id}>
             <div className="book">
               <div className="book-top">
-                <div className="book-cover" style={coverStyle}>
+                <div className="book-cover" style={coverStyle}></div>
                   <div className="book-shelf-changer">
                     <select>
                       <option value="none" disabled>Move to...</option>
@@ -27,7 +27,6 @@ function BooksGrid(props) {
                 <div className="book-title">{book.title}</div>
                 <div className="book-authors">{book.authors.join(",")}</div>
               </div>
-            </div>
           </li>
       )})}
     </ol>
