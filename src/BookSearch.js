@@ -11,14 +11,20 @@ class BookSearch extends Component {
 
   termSearch(term) {
     this.setState ({ searchTerm: term.trim() })
-    if (this.state.searchTerm.length > 1){
-      BooksAPI.search(this.state.searchTerm, 20).then((BookList) => {
-        this.setState({ BookList })
-      });
-    }
   }
 
-
+  componentDidUpdate(prevProps, prevState) {
+    if(prevState.searchTerm !== this.state.searchTerm){
+      if (this.state.searchTerm.length > 0){
+        BooksAPI.search(this.state.searchTerm, 20).then((BookList) => {
+          this.setState({ BookList })
+        });
+      }
+      else {
+        this.setState({BookList: []});
+      }
+    }
+  }
 
   render(){
     return (
@@ -27,7 +33,7 @@ class BookSearch extends Component {
           <Link to="/" className="close-search">Close</Link>
             <div className="search-books-input-wrapper">
               <input
-                onInput={(e) => this.termSearch(e.target.value)}
+                onChange={(e) => this.termSearch(e.target.value)}
                 type="text"
                 placeholder="Search by title or author"/>
             </div>
