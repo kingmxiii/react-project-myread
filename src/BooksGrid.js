@@ -1,6 +1,7 @@
 import React from 'react'
 
 function BooksGrid(props) {
+  console.log (props.bookList)
   return (
     <ol className="books-grid">
       {props.bookList.map((book) => {
@@ -25,7 +26,7 @@ function BooksGrid(props) {
                   </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors.join(",")}</div>
+                <div className="book-authors">{book.authors}</div>
               </div>
           </li>
       )})}
