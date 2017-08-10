@@ -1,7 +1,7 @@
 import React from 'react'
 
 /**
-* @description Functional Component that render the list of books provided
+* @description Functional Component that renders the list of books provided
 * @prop {array}  bookList - List of Books to be rendered
 * @prop {function} onMoveBook - Function that handles Book shelf updates
 */
@@ -26,7 +26,7 @@ function BooksGrid(props) {
               <div className="book-top">
                 <div className="book-cover" style={coverStyle}></div>
                   <div className="book-shelf-changer">
-                    <select defaultValue={shelf} onChange={(e) => props.onMoveBook(book, e.target.value)}>
+                    <select value={shelf} onChange={(e) => props.onMoveBook(book, e.target.value)}>
                       <option value="none" disabled>Move to...</option>
                       <option value="currentlyReading">Currently Reading</option>
                       <option value="wantToRead">Want to Read</option>
