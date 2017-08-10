@@ -10,6 +10,7 @@ function BooksGrid(props) {
           backgroundImage: `url(${book.imageLinks.thumbnail})`
         }
         let shelf = (book.shelf === undefined) ? 'none' : book.shelf;
+        let authors = (book.authors === undefined) ? '' : book.authors.join(" - ");
         return(
           <li key={book.id}>
             <div className="book">
@@ -26,7 +27,7 @@ function BooksGrid(props) {
                   </div>
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors}</div>
+                <div className="book-authors">{authors}</div>
               </div>
           </li>
       )})}
