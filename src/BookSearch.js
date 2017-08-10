@@ -15,8 +15,26 @@ class BookSearch extends Component {
     searchTerm : ''
   }
 
-  termSearch(term) {
+  termSearch = (term) => {
     this.setState ({ searchTerm: term.trim() })
+  }
+
+  shelfChange = (book,id) => {
+    this.props.onMoveBook(book,id)
+    //Update Local State
+    this.updateBookList();
+  }
+
+  updateBookList = () => {
+    BooksAPI.search(this.state.searchTerm, 10).then((books) => {
+        /*Get The list of books from search result that are on my
+          collection And updates each book shelf value
+         */
+        const myBooks = _.intersectionBy(this.props.myBooks, books, 'id')
+        //Merge updated Books with search result
+        const BookList = _.unionBy(myBooks, books, 'id')
+        this.setState({ BookList })
+      });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -24,15 +42,7 @@ class BookSearch extends Component {
     if(prevState.searchTerm !== this.state.searchTerm){
       //Prevent empty query to be send to BookAPI search
       if (this.state.searchTerm.length > 0){
-        BooksAPI.search(this.state.searchTerm, 10).then((books) => {
-            /*Get The list of books from search result that are on my
-              collection And updates each book shelf value
-             */
-            const myBooks = _.intersectionBy(this.props.myBooks, books, 'id')
-            //Merge updated Books with search result
-            const BookList = _.unionBy(myBooks, books, 'id')
-            this.setState({ BookList })
-          });
+          this.updateBookList();
         }
       else {
         this.setState({BookList: []});
@@ -56,7 +66,7 @@ class BookSearch extends Component {
               <h2 className="search-books-header">Search For Books</h2>
             )}
             {this.state.BookList.length > 0 && (
-              <BooksGrid bookList={this.state.BookList} onMoveBook={this.props.onMoveBook}/>
+              <BooksGrid bookList={this.state.BookList} onMoveBook={this.shelfChange}/>
             )}
           </div>
         </div>
