@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 
+/**
+* @description Component that renders the search page
+* @prop {function} onMoveBook - Function that handles Book shelf updates
+*/
+
 class BookSearch extends Component {
   state = {
     BookList : [],
@@ -14,7 +19,9 @@ class BookSearch extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // Prevent unnecesary request to the server
     if(prevState.searchTerm !== this.state.searchTerm){
+      //Prevent empty query to be send to BookAPI search
       if (this.state.searchTerm.length > 0){
         BooksAPI.search(this.state.searchTerm, 20).then((BookList) => {
           this.setState({ BookList })
@@ -47,7 +54,6 @@ class BookSearch extends Component {
             )}
           </div>
         </div>
-
     )
   }
 }
