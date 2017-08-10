@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 import * as BooksAPI from './BooksAPI'
 import BooksGrid from './BooksGrid'
 
@@ -23,16 +24,21 @@ class BookSearch extends Component {
     if(prevState.searchTerm !== this.state.searchTerm){
       //Prevent empty query to be send to BookAPI search
       if (this.state.searchTerm.length > 0){
-        BooksAPI.search(this.state.searchTerm, 20).then((BookList) => {
-          this.setState({ BookList })
-        });
-      }
+        BooksAPI.search(this.state.searchTerm, 10).then((books) => {
+            /*Get The list of books from search result that are on my
+              collection And updates each book shelf value
+             */
+            const myBooks = _.intersectionBy(this.props.myBooks, books, 'id')
+            //Merge updated Books with search result
+            const BookList = _.unionBy(myBooks, books, 'id')
+            this.setState({ BookList })
+          });
+        }
       else {
         this.setState({BookList: []});
       }
     }
-  }
-
+}
   render(){
     return (
       <div className="search-books">
