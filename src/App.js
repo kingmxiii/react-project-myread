@@ -12,12 +12,22 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    this.fetchBooks();
+  }
+
+  fetchBooks = () => {
     //Fetch all books from the server
     BooksAPI.getAll().then((books) => {
       this.setState({ books });
     });
   }
-  
+
+  moveBook = (book, shelf) => {
+    BooksAPI.update(book,shelf).then(() => {
+      this.fetchBooks()
+    })
+  }
+
   render() {
     let currentlyReading = this.state.books.filter(( book ) => book.shelf === 'currentlyReading');
     let wantToRead = this.state.books.filter(( book ) => book.shelf === 'wantToRead');
@@ -31,9 +41,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title="Reading" bookList={currentlyReading} />
-                <BookShelf title="Want To Read" bookList={wantToRead} />
-                <BookShelf title="Read" bookList={read} />
+                <BookShelf title="Reading" bookList={currentlyReading} onMoveBook={this.moveBook} />
+                <BookShelf title="Want To Read" bookList={wantToRead} onMoveBook={this.moveBook} />
+                <BookShelf title="Read" bookList={read} onMoveBook={this.moveBook} />
               </div>
             </div>
             <div className="open-search">
@@ -42,7 +52,7 @@ class BooksApp extends React.Component {
           </div>
         )}/>
         <Route path="/search" render={ ( history ) => (
-          <BookSearch />
+          <BookSearch onMoveBook={this.moveBook}/>
         )}/>
       </div>
     )

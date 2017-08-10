@@ -43,7 +43,7 @@ class BookSearch extends Component {
               <h2 className="search-books-header">Search For Books</h2>
             )}
             {this.state.BookList.length > 0 && (
-              <BooksGrid bookList={this.state.BookList}/>
+              <BooksGrid bookList={this.state.BookList} onMoveBook={this.props.onMoveBook}/>
             )}
           </div>
         </div>
