@@ -1,4 +1,7 @@
 import React from 'react'
+import ShelfChanger from './ShelfChanger'
+import NoCover from './img/nocover.png'
+
 
 /**
 * @description Functional Component that renders the list of books provided
@@ -10,31 +13,25 @@ function BooksGrid(props) {
   return (
     <ol className="books-grid">
       {props.bookList.map((book) => {
+        const { imageLinks, shelf, authors, id, title } = book
         //Set the style for the book cover
-        let coverStyle = {
-          backgroundImage: `url(${book.imageLinks.thumbnail})`
+        const bookCover = (imageLinks) ? imageLinks.thumbnail : NoCover;
+        const coverStyle = {
+          backgroundImage: `url(${bookCover})`
          }
         //Get current Book Shelf value
-        let shelf = (book.shelf === undefined) ? 'none' : book.shelf;
+        const bookShelf = (shelf) ? shelf : 'none' ;
         //Setting author
-        let authors = (book.authors === undefined) ? '' : book.authors.join(" - ");
+        const bookAuthors = (authors) ? authors.join(" - ") : '';
         return(
-          <li key={book.id}>
+          <li key={id}>
             <div className="book">
               <div className="book-top">
                 <div className="book-cover" style={coverStyle}></div>
-                  <div className="book-shelf-changer">
-                    <select value={shelf} onChange={(e) => props.onMoveBook(book, e.target.value)}>
-                      <option value="none" disabled>Move to...</option>
-                      <option value="currentlyReading">Currently Reading</option>
-                      <option value="wantToRead">Want to Read</option>
-                      <option value="read">Read</option>
-                      <option value="none">None</option>
-                    </select>
-                  </div>
+                  <ShelfChanger book={book} shelf={bookShelf} onMoveBook={props.onMoveBook} />
                 </div>
-                <div className="book-title">{book.title}</div>
-                <div className="book-authors">{authors}</div>
+                <div className="book-title">{title}</div>
+                <div className="book-authors">{bookAuthors}</div>
               </div>
           </li>
       )})}
