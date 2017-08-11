@@ -8,9 +8,9 @@ Users will also have the ability to search for book and add them to their book c
 
 ## Installation
 
-1 - Clone this Repository or Download the Zip File
-2 - Run npm install from the terminal
-3 - Run npm run start
+1. - Clone this Repository or Download the Zip File
+1. - Run npm install from the terminal
+1. - Run npm run start
 
 
 ## Limitations
