@@ -22,7 +22,7 @@ class BookSearch extends Component {
   shelfChange = (book,id) => {
     this.props.onMoveBook(book,id)
     //Update Local State
-    this.updateBookList();
+
   }
 
   updateBookList = () => {
@@ -47,6 +47,11 @@ class BookSearch extends Component {
       else {
         this.setState({BookList: []});
       }
+    }
+
+    // Update Local State after myBooks is updated. 
+    if(prevProps.myBooks !== this.props.myBooks && this.state.searchTerm.length > 0){
+      this.updateBookList();
     }
 }
   render(){
