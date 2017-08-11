@@ -12,8 +12,6 @@ function BooksGrid(props) {
       {props.bookList.map((book) => {
         //Set the style for the book cover
         let coverStyle = {
-          width: 128,
-          height: 193,
           backgroundImage: `url(${book.imageLinks.thumbnail})`
          }
         //Get current Book Shelf value
